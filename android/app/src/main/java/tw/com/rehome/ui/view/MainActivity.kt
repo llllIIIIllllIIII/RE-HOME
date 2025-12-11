@@ -1,4 +1,4 @@
-package tw.com.rehome
+package tw.com.rehome.ui.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -20,10 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             RehomeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    SurveyView()
                 }
             }
         }
