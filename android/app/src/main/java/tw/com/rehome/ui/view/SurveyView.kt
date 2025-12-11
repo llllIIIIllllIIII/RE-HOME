@@ -1,5 +1,6 @@
 package tw.com.rehome.ui.view
 
+import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -25,31 +27,40 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-
+import com.squareup.moshi.Moshi
+import tw.com.rehome.model.Survey
+import tw.com.rehome.model.SurveyJsonAdapter
 
 @Composable
 internal fun SurveyView() {
     Column(
         modifier = Modifier
+            .safeContentPadding()
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .verticalScroll(state = rememberScrollState())
     ) {
-        SingleSelect(question = "test", options = listOf("1", "2", "3"))
-        SingleSelect(question = "test", options = listOf("1", "2", "3"))
-        SingleSelect(question = "test", options = listOf("1", "2", "3"))
-        SingleSelect(question = "test", options = listOf("1", "2", "3"))
-        SingleSelect(question = "test", options = listOf("1", "2", "3"))
-        SlideSelect(question = "test")
-        SlideSelect(question = "test")
-        SlideSelect(question = "test")
+
+        val survey = readJsonFromAssets(context = LocalContext.current, fileName = "survey.json")
+        val surveyObj = SurveyJsonAdapter(Moshi.Builder().build()).fromJson(survey)
+
+        surveyObj?.questions?.forEach {
+            val title = "${it.id}.${it.question}"
+            if (!it.options.isNullOrEmpty()) SingleSelect(question = title, options = it.options)
+            else SlideSelect(question = title)
+        }
 
         Button(onClick = {
-
+            // TODO : Next page
         }) {
             Text("submit")
         }
     }
+}
+
+private fun readJsonFromAssets(context: Context, fileName: String): String {
+    return context.assets.open(fileName).bufferedReader().use { it.readText() }
 }
 
 @Composable
@@ -121,13 +132,6 @@ private fun RatingSlider() {
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        Text(
-            text = if (sliderValue == 0f) "評分: 未選擇" else "評分: ${sliderValue.toInt()}",
-            style = MaterialTheme.typography.titleMedium
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
         Slider(
             value = sliderValue,
             onValueChange = { sliderValue = it },
