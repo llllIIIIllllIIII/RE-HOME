@@ -1,0 +1,248 @@
+[
+  {
+    "id": 1,
+    "text": "性別",
+    "category": "demographic",
+    "isDemographic": true,
+    "type": "select",
+    "options": ["女性", "男性", "其他/不願透露"]
+  },
+  {
+    "id": 2,
+    "text": "年齡",
+    "category": "demographic",
+    "isDemographic": true,
+    "type": "select",
+    "options": ["18-24", "25-34", "35-44", "45-54", "55以上"]
+  },
+  {
+    "id": 3,
+    "text": "職業類別",
+    "category": "demographic",
+    "isDemographic": true,
+    "type": "select",
+    "options": ["學生", "上班族", "自由工作者", "家管", "其他"]
+  },
+  {
+    "id": 4,
+    "text": "目前居住地",
+    "category": "demographic",
+    "isDemographic": true,
+    "type": "select",
+    "options": ["北部", "中部", "南部", "東部", "離島", "海外"]
+  },
+  {
+    "id": 5,
+    "text": "目前生活狀態最貼近下列哪一項？",
+    "category": "demographic",
+    "isDemographic": true,
+    "type": "select",
+    "options": ["穩定但缺习新鮮感", "正在尋找改變", "平靜且滿足", "其他"]
+  },
+
+  {
+    "id": 6,
+    "text": "我喜歡探索新文化、新活動或不熟悉的地方。",
+    "category": "openness",
+    "subcategory": "探索"
+  },
+  {
+    "id": 7,
+    "text": "我會被具有美感、故事性或特色的場域吸引。",
+    "category": "openness",
+    "subcategory": "美感"
+  },
+  {
+    "id": 8,
+    "text": "面對陌生環境，我通常感到興奮而不是緊張。",
+    "category": "openness",
+    "subcategory": "新奇"
+  },
+  {
+    "id": 9,
+    "text": "我樂於嘗試當地特色或不同文化的生活方式。",
+    "category": "openness",
+    "subcategory": "探索"
+  },
+  {
+    "id": 10,
+    "text": "我偏好能帶給我靈感或視覺享受的旅程。",
+    "category": "openness",
+    "subcategory": "美感"
+  },
+
+  {
+    "id": 11,
+    "text": "我喜歡與他人一起旅行並享受互動。",
+    "category": "extraversion",
+    "subcategory": "社交"
+  },
+  {
+    "id": 12,
+    "text": "認識新朋友會讓我覺得開心、有能量。",
+    "category": "extraversion",
+    "subcategory": "活力"
+  },
+  {
+    "id": 13,
+    "text": "熱鬧、具互動性的活動比安靜行程更吸引我。",
+    "category": "extraversion",
+    "subcategory": "活力"
+  },
+  {
+    "id": 14,
+    "text": "我在群體旅行中容易帶起氣氛或主動交流。",
+    "category": "extraversion",
+    "subcategory": "社交"
+  },
+  {
+    "id": 15,
+    "text": "我習慣透過人際互動讓旅程變得更有趣。",
+    "category": "extraversion",
+    "subcategory": "社交"
+  },
+
+  {
+    "id": 16,
+    "text": "我會留意同行者的需求並調整自己的步調。",
+    "category": "agreeableness",
+    "subcategory": "合作"
+  },
+  {
+    "id": 17,
+    "text": "我不喜歡旅行中出現衝突或不必要爭執。",
+    "category": "agreeableness",
+    "subcategory": "氛圍"
+  },
+  {
+    "id": 18,
+    "text": "我容易察覺旅伴的情緒並願意協助。",
+    "category": "agreeableness",
+    "subcategory": "同理"
+  },
+  {
+    "id": 19,
+    "text": "我希望旅程能維持和諧、舒適的氣氛。",
+    "category": "agreeableness",
+    "subcategory": "氛圍"
+  },
+  {
+    "id": 20,
+    "text": "我會為了團體氛圍犧牲部分個人偏好。",
+    "category": "agreeableness",
+    "subcategory": "合作"
+  },
+
+  {
+    "id": 21,
+    "text": "我偏好事先規劃完整的行程與細節。",
+    "category": "conscientiousness",
+    "subcategory": "規劃"
+  },
+  {
+    "id": 22,
+    "text": "我會注意旅行中的時間、預算與風險。",
+    "category": "conscientiousness",
+    "subcategory": "控制感"
+  },
+  {
+    "id": 23,
+    "text": "我在旅途中喜歡有方向與節奏，不喜歡太混亂。",
+    "category": "conscientiousness",
+    "subcategory": "規劃"
+  },
+  {
+    "id": 24,
+    "text": "我會準備替代方案，以避免突發情況造成困擾。",
+    "category": "conscientiousness",
+    "subcategory": "控制感"
+  },
+
+  {
+    "id": 25,
+    "text": "自然環境能明顯幫助我放鬆並穩定情緒。",
+    "category": "emotionRegulation",
+    "subcategory": "恢復"
+  },
+  {
+    "id": 26,
+    "text": "我能察覺旅行中自己的情緒變化並調整節奏。",
+    "category": "emotionRegulation",
+    "subcategory": "感受"
+  },
+  {
+    "id": 27,
+    "text": "遇到突發狀況時，我能在合理時間內恢復情緒。",
+    "category": "emotionRegulation",
+    "subcategory": "反應"
+  },
+  {
+    "id": 28,
+    "text": "我需要一定的獨處或安靜時間才能保持舒適。",
+    "category": "emotionRegulation",
+    "subcategory": "恢復"
+  },
+  {
+    "id": 29,
+    "text": "吵雜或過快的節奏容易讓我感到疲累或壓力。",
+    "category": "emotionRegulation",
+    "subcategory": "反應",
+    "isReverse": true
+  },
+
+  {
+    "id": 30,
+    "text": "我喜歡具有挑戰性、戶外或刺激感的行程。",
+    "category": "travelPreference",
+    "subcategory": "冒險偏好"
+  },
+  {
+    "id": 31,
+    "text": "我偏好能自由調整節奏、不被趕的旅行方式。",
+    "category": "travelPreference",
+    "subcategory": "節奏自由"
+  },
+  {
+    "id": 32,
+    "text": "旅行能讓我整理思緒、理解自己。",
+    "category": "travelPreference",
+    "subcategory": "內在與深度"
+  },
+  {
+    "id": 33,
+    "text": "我喜歡具有深度對話或反思空間的旅程。",
+    "category": "travelPreference",
+    "subcategory": "內在與深度"
+  },
+  {
+    "id": 34,
+    "text": "品嘗當地美食會讓我更投入這趟旅程。",
+    "category": "travelPreference",
+    "subcategory": "美食文化"
+  },
+  {
+    "id": 35,
+    "text": "我會特地尋找具有地方文化或故事性的餐廳。",
+    "category": "travelPreference",
+    "subcategory": "美食文化"
+  },
+  {
+    "id": 36,
+    "text": "與熟悉的人一起旅行會讓我更安心。",
+    "category": "travelPreference",
+    "subcategory": "社交偏好"
+  },
+  {
+    "id": 37,
+    "text": "我偏好一個人旅行，因為更自由、更能跟自己對話。",
+    "category": "travelPreference",
+    "subcategory": "獨旅偏好"
+  },
+
+  {
+    "id": 38,
+    "text": "請輸入您的電子郵件地址（選填）",
+    "category": "contact",
+    "type": "email"
+  }
+]
