@@ -1,4 +1,5 @@
 import random
+import logging
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from openai import OpenAI
@@ -8,6 +9,10 @@ from system_prompt import TRIP_PLANNER_SYSTEM_PROMPT
 from result import FALLBACK_OPTIONS
 
 app = FastAPI(title="AMD AI API", description="使用 AMD vLLM 的文字生成 API")
+
+# logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+
 
 # vLLM 伺服器設定
 VLLM_BASE_URL = "http://210.61.209.139:45014/v1/"
@@ -70,20 +75,52 @@ def call_completion_fallback(model_name: str, message: str) -> str:
 
 
 def find_fallback_by_mode_keyword(keyword: str) -> Dict[str, str] | None:
-    """依據傳入的關鍵字尋找 mode 值內含該關鍵字的預設項目。"""
-    keyword_norm = keyword.strip().lower()
+    """
+    使用較寬鬆的比對規則找出對應的 fallback 項目：
+    - 若傳入單字母（A/B/C/D/E）則直接比對 code。
+    - 嘗試 mode 字串是否包含 keyword 或反向包含。
+    - 嘗試以長度為2的子字串在中文中做共現比對（例如 keyword 包含「文化」，可命中「文化棲居者」）。
+    - 若以上皆無，回傳 None。
+    """
+    keyword_norm = (keyword or "").strip().lower()
     if not keyword_norm:
         return None
 
-    # 先嘗試片段比對，再嘗試開頭字母比對（例如只傳 A/B/C）。
+    # 若直接傳入代碼字母（A/B/C/D/E），直接比對
+    if len(keyword_norm) == 1 and keyword_norm in "abcde":
+        for option in FALLBACK_OPTIONS:
+            mode_value = option.get("mode", "")
+            if mode_value.strip().lower().startswith(keyword_norm):
+                return option
+
+    # 逐一檢查每個 option 的名字部分是否能匹配
     for option in FALLBACK_OPTIONS:
-        mode_value = option.get("mode", "").lower()
-        if keyword_norm in mode_value:
+        mode_value = option.get("mode", "").strip()
+        mode_norm = mode_value.lower()
+        # mode 通常格式為 "A 名稱"，嘗試取出名稱部分
+        parts = mode_value.split(None, 1)
+        mode_code = parts[0].lower() if parts else ""
+        mode_name = parts[1].lower() if len(parts) > 1 else mode_code
+
+        # 直接包含比對（任一方向）
+        if keyword_norm in mode_name or mode_name in keyword_norm:
             return option
-    for option in FALLBACK_OPTIONS:
-        mode_value = option.get("mode", "").lower()
-        if mode_value.startswith(keyword_norm):
+
+        # 若使用者輸入內含 mode code（例如 "A" 或 "a"），也可命中
+        if mode_code and mode_code.startswith(keyword_norm):
             return option
+
+        # 中文友好的二字子串共現比對：若 keyword 與 mode_name 共有任一連續兩字，視為 match
+        # 只在長度大於等於2 時檢查
+        if len(keyword_norm) >= 2 and len(mode_name) >= 2:
+            try:
+                for i in range(0, len(keyword_norm) - 1):
+                    sub = keyword_norm[i : i + 2]
+                    if sub and sub in mode_name:
+                        return option
+            except Exception:
+                pass
+
     return None
 
 
@@ -103,6 +140,20 @@ def choose_fallback(mode_keyword: str | None = None) -> Dict[str, str]:
         "why": "被綠意和水面包圍時，身體會自然放慢節奏，累積的壓力也比較容易鬆開",
         "cta": "如果今天還有一點點體力，就選一個傍晚時段去坐半小時，當作送給自己的小禮物",
     }
+
+
+def _option_mode_code(option: Dict[str, str]) -> str:
+    """從選項的 `mode` 欄位擷取 A/B/C/D/E code，找不到則回傳 '?'。"""
+    if not option:
+        return "?"
+    mode = option.get("mode", "")
+    if not mode:
+        return "?"
+    # 以第一個英文字母為準
+    first = mode.strip()[0].upper()
+    if first in {"A", "B", "C", "D", "E"}:
+        return first
+    return "?"
 
 
 # 請求模型
@@ -163,7 +214,10 @@ async def list_models():
 @app.post("/fallback", response_model=Dict[str, str])
 async def get_fallback_by_mode(request: ModeRequest):
     """依 mode 關鍵字回傳最符合的預設選項，找不到則回傳隨機/保底。"""
-    return choose_fallback(request.mode_keyword)
+    chosen = choose_fallback(request.mode_keyword)
+    code = _option_mode_code(chosen)
+    logging.info("/fallback called - keyword=%r chosen=%s", request.mode_keyword, code)
+    return chosen
 
 
 if __name__ == "__main__":
