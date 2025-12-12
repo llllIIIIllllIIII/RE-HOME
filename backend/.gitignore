@@ -1,0 +1,15 @@
+# Ignore everything by default
+*
+
+# Keep only core backend files
+!.gitignore
+!main.py
+!result.py
+!system_prompt.py
+
+# Common ignores (even if whitelisted above, these stay out)
+__pycache__/
+*.pyc
+venv/
+.env
+.vscode/
